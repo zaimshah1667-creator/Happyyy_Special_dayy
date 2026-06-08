@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zainab ❤️ Birthday Surprise</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:radial-gradient(circle,#000,#1a001f);
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* STAGES */
+.stage{display:none;padding:30px;}
+.active{display:block;animation:fade 1s ease;}
+
+@keyframes fade{
+from{opacity:0;transform:scale(0.9);}
+to{opacity:1;transform:scale(1);}
+}
+
+/* BUTTON */
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:linear-gradient(45deg,#ff4b7d,#ff00cc);
+color:white;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* HEARTS */
+.heart{
+position:fixed;
+bottom:-20px;
+animation:float 6s linear;
+}
+@keyframes float{
+to{transform:translateY(-100vh);opacity:0;}
+}
+
+/* CAKE */
+#cake{
+width:220px;
+cursor:pointer;
+transition:0.5s;
+filter:drop-shadow(0 0 20px pink);
+}
+
+.cutting{
+transform:scale(1.1) rotate(2deg);
+}
+
+/* FIREWORKS */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fire"></canvas>
+
+<!-- STAGE 1 -->
+<div id="s1" class="stage active">
+<h1>💖 A Surprise for Zainab 💖</h1>
+<p>Made with endless love by Zaim ❤️</p>
+<button onclick="next(2)">Start Journey</button>
+</div>
+
+<!-- STAGE 2 -->
+<div id="s2" class="stage">
+<h2>💌 My Heart For You</h2>
+<p>
+Zainab, you are my happiness,<br>
+my peace, my forever home ❤️
+</p>
+<button onclick="next(3)">Continue</button>
+</div>
+
+<!-- STAGE 3 CAKE -->
+<div id="s3" class="stage">
+<h2>🎂 Special Cake For You 🎂</h2>
+<p>Click the cake to cut it 💖</p>
+
+<img id="cake" src="https://cdn.pixabay.com/photo/2016/03/05/19/02/cake-1238246_1280.png"
+onclick="cutCake()">
+
+<p id="cakeText"></p>
+</div>
+
+<!-- STAGE 4 GIFTS -->
+<div id="s4" class="stage">
+<h2>🎁 Special Gifts For You 🎁</h2>
+
+<p>💖 Gift 1: My loyalty</p>
+<p>💖 Gift 2: My time</p>
+<p>💖 Gift 3: My heart forever</p>
+
+<button onclick="next(5)">Final Love</button>
+</div>
+
+<!-- STAGE 5 FINAL -->
+<div id="s5" class="stage">
+<h1>🎉 HAPPY BIRTHDAY ZAINAB 🎉</h1>
+<h2>💖 I LOVE YOU FOREVER 💖</h2>
+<p>— Zaim ❤️</p>
+</div>
+
+<script>
+
+/* STAGES */
+function next(n){
+document.querySelectorAll(".stage").forEach(s=>s.classList.remove("active"));
+document.getElementById("s"+n).classList.add("active");
+if(n==5) fireworks();
+}
+
+/* CAKE CUT */
+function cutCake(){
+let cake=document.getElementById("cake");
+cake.classList.add("cutting");
+
+document.getElementById("cakeText").innerHTML="🎂 Cake is being cut with love... ❤️";
+
+setTimeout(()=>{
+next(4);
+fireworks();
+},1500);
+}
+
+/* HEARTS */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},300);
+
+/* FIREWORKS */
+let c=document.getElementById("fire");
+let x=c.getContext("2d");
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+
+let p=[];
+for(let i=0;i<100;i++){
+p.push({x:Math.random()*c.width,y:Math.random()*c.height});
+}
+
+function fireworks(){
+setInterval(()=>{
+x.clearRect(0,0,c.width,c.height);
+x.fillStyle="white";
+p.forEach(v=>{
+x.beginPath();
+x.arc(v.x,v.y,2,0,Math.PI*2);
+x.fill();
+v.y+=3;
+if(v.y>c.height)v.y=0;
+});
+},30);
+}
+
+</script>
+
+</body>
+</html>
